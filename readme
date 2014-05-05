@@ -1,6 +1,2 @@
 
-A quick python rsa implementation.
-This is designed as an exerciese.
-
-If I can get this implemented in python quickly, I'll try doing it in c.
-
+The goal of the project is to learn about rsa encryption, and implement it in python and in C.
