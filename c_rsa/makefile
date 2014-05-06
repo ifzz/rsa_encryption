@@ -34,9 +34,13 @@ clean:
 rebuild: clean all
 
 # build Objects
+$(BUILD)rsa.o: $(SRC)rsa.c $(SRC)rsa.h
+	$(CC) $(CFLAGS) $(SRC)rsa.c -o $(BUILD)rsa.o
+
+
 $(BUILD)main.o: $(SRC)main.c
 	$(CC) $(CFLAGS) $(SRC)main.c -o $(BUILD)main.o
 
 # Link Objects
-$(BIN)rsa: $(BUILD)main.o
-	$(CC) $(BUILD)main.o -o $(BIN)rsa
+$(BIN)rsa: $(BUILD)main.o $(BUILD)rsa.o
+	$(CC) $(BUILD)rsa.o $(BUILD)main.o -o $(BIN)rsa
