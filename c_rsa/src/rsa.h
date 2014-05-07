@@ -1,12 +1,13 @@
+#include <stdio.h>
+#include "miller-rabin.h"
 
 /**
  * rsa
  * File: rsa.h
- * Auth: Evan Wilde 				<etcwilde@uvic.ca>
+ * Auth: Evan Wilde         <etcwilde@uvic.ca>
  * Date: May 05 2014
  */
 
-#include <stdio.h>
 
 /* key
  */
@@ -35,7 +36,9 @@ keypair* keygen(long int n, key* public_key);
   * Returns 0 when the number is not prime
   * Returns 1 when the number is prime
   * 
-  * Uses the Miller-Rabin primality test
+  * Uses the Miller-Rabin primality test -- NO
+  * Usues the Fermat Primality test
+  * If k = 0, then will run for 30 times
   *
   * k is the accuracy
   * n is the number
