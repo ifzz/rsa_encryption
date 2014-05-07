@@ -8,6 +8,9 @@
 
 #include "mathx.h"
 
+
+
+
 /* Power
  * 
  * b ** e

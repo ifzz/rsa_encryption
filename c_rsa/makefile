@@ -42,7 +42,10 @@ $(BUILD)mathx.o: $(SRC)mathx.c $(SRC)mathx.h
 $(BUILD)miller-rabin.o: $(SRC)miller-rabin.c $(SRC)miller-rabin.h
 	$(CC) $(CFLAGS) $(SRC)miller-rabin.c -o $(BUILD)miller-rabin.o
 
-$(BUILD)rsa.o: $(SRC)rsa.c $(SRC)rsa.h $(BUILD)miller-rabin.o $(BUILD)mathx.o
+$(BUILD)rand.o: $(SRC)rand.c $(SRC)rand.h 
+	$(CC) $(CFLAGS) $(SRC)rand.c -o $(BUILD)rand.o
+
+$(BUILD)rsa.o: $(SRC)rsa.c $(SRC)rsa.h $(BUILD)miller-rabin.o $(BUILD)mathx.o $(BUILD)rand.o
 	$(CC) $(CFLAGS) $(SRC)rsa.c -o $(BUILD)rsa.o
 
 $(BUILD)main.o: $(SRC)main.c
@@ -50,4 +53,5 @@ $(BUILD)main.o: $(SRC)main.c
 
 # Link Objects
 $(BIN)rsa: $(BUILD)main.o $(BUILD)rsa.o $(BUILD)miller-rabin.o $(BUILD)mathx.o
-	$(CC) $(BUILD)miller-rabin.o $(BUILD)mathx.o $(BUILD)rsa.o $(BUILD)main.o -o $(BIN)rsa
+	$(CC) $(BUILD)rand.o $(BUILD)miller-rabin.o $(BUILD)mathx.o $(BUILD)rsa.o $(BUILD)main.o -o $(BIN)rsa
+
