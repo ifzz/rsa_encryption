@@ -11,43 +11,39 @@
 
 
 
-
-
-keypair* keygen(long int n, key* public_key)
+keypair* keygen(long int N)
 {
 	long int prv, pub;
-	long int p = rand_prime(n);
-	long int q = rand_prime(n);
+	long int p = rand_prime(N);
+	long int q = rand_prime(N);
 	long int n = p * q;
 	long int totient;
 	totient = (p - 1) * (q - 1);
-	if (public_key != NULL)
+
+	for(;;)
 	{
-		pub = public_key->exponent;
-		for(;;)
-		{
-			long int private = rand_range(0, totient);
-			if (gcd(private, totient) == 1) break;
-		}
-		pub = multinv(totient, prv);
-	}
-	else
-	{
-		prv = multinv(totient, pub);
+		prv = rand_range(0, totient);
+		if (gcd(prv, totient) == 1) break;
 	}
 
-	assert(public * private % totient == gcd(public, totient) == gcd(private, totient) == 1);
-	
+	printf("Private Key: %ld\n", prv);
 
-	return NULL;
+	pub = multinv(totient, prv);
+	assert(pub * prv % totient == gcd(pub, totient) == gcd(prv, totient) == 1);
 
+	keypair* keys = (keypair*)malloc(sizeof(keypair));
+	key* public = (key*)malloc(sizeof(key));
+	key* private = (key*)malloc(sizeof(key));
+	assert ((public != NULL) && (private != NULL) && (keys != NULL));
 
+	keys->public_key = public;
+	keys->private_key = private;
+
+	public->modulus = private->modulus = n;
+	public->exponent = pub;
+	private->exponent = prv;
+	return keys;
 }
-
-
-
-
-
 
 
 

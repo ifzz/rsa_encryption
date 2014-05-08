@@ -12,8 +12,8 @@
  */
 
 typedef struct _key {
-	int* exponent;
-	int* modulus;
+	int exponent;
+	int modulus;
 } key;
 
 typedef struct _keypair{
@@ -29,7 +29,7 @@ typedef struct _keypair{
  * If public is not null, it will only generate the private key
  * Otherwise, it will generate a public key
  */
-keypair* keygen(long int n, key* public_key);
+keypair* keygen(long int N);
 
 /** is prime
   * Returns 0 when the number is not prime

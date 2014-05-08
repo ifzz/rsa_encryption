@@ -20,7 +20,14 @@
  */
 int power(int b, int e)
 {
+	if (b == 1) return 1;
 	int result = 1;
+
+	if (b == 2)
+	{
+		result << e;
+	}
+
 	for (; e > 0; e--)
 	{
 		result *= b;
