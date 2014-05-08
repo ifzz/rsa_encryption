@@ -8,13 +8,12 @@
  * Date: May 05 2014
  */
 
-
 /* key
  */
 
 typedef struct _key {
-	char* exponent;
-	char* modulus;
+	int* exponent;
+	int* modulus;
 } key;
 
 typedef struct _keypair{

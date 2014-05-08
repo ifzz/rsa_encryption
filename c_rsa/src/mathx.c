@@ -97,3 +97,17 @@ long int multinv(long int modulus, long int value)
 	assert(0 <= result < modulus && value * result % modulus == 1);
 	return result;
 }
+
+/* Greatest Common Denominator
+ *
+ * GCD calculator
+ */
+long int gcd(long int a, long int b)
+{
+	int c;
+	while (a != 0)
+	{
+		c = a; a = b % a; b = c;
+	}
+	return b;
+}

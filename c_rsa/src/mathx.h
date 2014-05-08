@@ -38,3 +38,9 @@ char is_prime(long int n, int k);
  * Calculates the multiplicative inverse
  */
 long int multinv(long int modulus, long int value);
+
+/* Greatest Common Denominator
+ *
+ * GCD calculator
+ */
+long int gcd(long int a, long int b);
