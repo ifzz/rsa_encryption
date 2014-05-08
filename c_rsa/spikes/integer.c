@@ -30,7 +30,7 @@ int integersize(integer* n)
   * The input digit d must be one digit
   * i.e between 0 and 9.
   */
-digit* Digit(int d)
+digit* Digit(short d)
 {
 	assert((d >= 0) && (d <= 9)); // Otherwise this has multiple digits
 	digit* retval = (digit*)malloc(sizeof(digit));
@@ -53,28 +53,98 @@ void free_Digit(digit* d)
 	free(d);
 }
 
+void print_int(integer* n)
+{
+	digit* d;
+
+	for(d = n->_head; d != NULL; d = d->next)
+	{
+		printf("%d", get_digit(d));
+	}
+}
+
 /** Integer
   * Allocate an integer given a list of characters
   * 
   * Returns null if any char cannot be converted to an integer
+  * Nice thing about being able to enter a number as a char*:
+  * we can enter infinitly long numbers into our integer.
   */
 integer* Integer_char(char* n)
 {
-	int i;
-	integer* number = (integer*)malloc(sizeof(integer));
-	assert(number != NULL);
-	for (i = 0; i < strlen(n); i++)
+	char character;
+	char* current_char;
+	long int val;
+	char* endptr;
+	
+	integer* result = (integer*)malloc(sizeof(integer));
+	assert(result != NULL);
+	
+	for (current_char = n; *current_char != '\0'; current_char++)
 	{
-		printf("%c\n", n[i]);
+		character = *current_char;
+		printf("char : %c\n", character);
+		errno = 0;
+		val = strtol(&character, &endptr, 10);
+		if (errno != 0)
+		{
+			perror("Integer Char");
+			free(result);
+			return NULL;
+		}
+		if (endptr == &character)
+		{
+			fprintf(stderr, "Not a digit: %c\n", character);
+			free(result);
+			return NULL;
+		}
+		digit* new_d =  Digit((short) val);
+		printf("Value as a digit: %d\n",get_digit(new_d));
+		result = Integer_append(result, new_d);	
 	}
+	print_int(result);
+	printf("\n");
+	return result;
+}
+
+/** Integer Append
+  * Append a digit to the tail of an integer 
+  */
+integer* Integer_append(integer* i, digit* d)
+{
+	if (i->_head != NULL)
+	{
+		i->_tail->next = d;
+		d->prev = i->_tail;
+		d->next = NULL;
+		i->_tail = d;
+	}
+	else
+	{
+		i->_head = d;
+		i->_tail = d;
+	}
+	return i;
+}
+
+char* Integer_to_char(integer* n)
+{
 	return NULL;
 }
 
 /** Integer
   * Allocate an integer given a long int
   */
-integer* Integer_int(long int n);
-
+integer* Integer_int(long int n)
+{
+	/*integer* my_int = (integer*)malloc(sizeof(integer));
+	assert(my_int != NULL);
+	my_int->_head = NULL; // Change if we initalize this anywhere
+	my_int->_tail = NULL; // Change if we initialize this anywhere
+	my_int->neg = 0; // Ignore negative numbers for now
+	*/
+	return NULL;
+}
 /** Add
   * Adds two integers together
   * x = a + b
@@ -101,7 +171,7 @@ integer* multiply(integer* a, integer* b);
 
 
 /** Operator
-  * Performs an operation on each digit
+  * Performs an operation on each digit -- Need?
   */
 integer* operator(integer* a, integer* b, integer* operation);
 
@@ -116,7 +186,7 @@ int main(void)
 	printf("my digit: %d\n", get_digit(my_digit));
 	free_Digit(my_digit);
 
-	Integer_char("123");
+	Integer_char("9999999999999999999999899999901");
 
 	printf("Size of 1234: %d\n", intsize(1234));
 	return 0;

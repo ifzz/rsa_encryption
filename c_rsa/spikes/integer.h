@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <errno.h>
+#include <limits.h>
+#include <math.h>
 /**
  * integer
  * File: integer.h
@@ -13,7 +16,7 @@
 
 typedef struct _digit
 {
-	int item;
+	short item;
 	struct _digit* next;
 	struct _digit* prev;
 
@@ -22,7 +25,7 @@ typedef struct _digit
 /* An integer is a list of digits  */
 typedef struct _integer 
 {
-  char neg;
+	char neg;
 	digit* _head;
 	digit* _tail;
 } integer;
@@ -35,7 +38,7 @@ int sizeint(integer* n);
 /** Digit
   * Constructs a digit
   */
-digit* Digit(int d);
+digit* Digit(short d);
 
 /** Frees Digit
   * Frees a digit
@@ -53,6 +56,11 @@ integer* Integer_char(char* n);
   * Allocate an integer given a long int
   */
 integer* Integer_int(long int n);
+
+/** integer append
+  * Appends a digit to an integer
+  */
+integer* Integer_append(integer* i, digit* d);
 
 /** Add
   * Adds two integers together
