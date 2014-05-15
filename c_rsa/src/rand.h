@@ -1,5 +1,9 @@
 #include <stdlib.h>
+#include <limits.h>
+
 #include "mathx.h"
+
+#ifndef _H_RAND
 
 /**
  * rand
@@ -7,7 +11,6 @@
  * Auth: Evan Wilde 				<etcwilde@uvic.ca>
  * Date: May 07 2014
  */
-
 
 
 /* Rand Range
@@ -20,3 +23,4 @@ unsigned int rand_range(unsigned int start, unsigned int end);
  */
 unsigned int rand_prime(unsigned int n);
 
+#endif

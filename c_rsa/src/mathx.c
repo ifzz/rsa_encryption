@@ -5,11 +5,7 @@
  * Date: May 07 2014
  */
 
-
 #include "mathx.h"
-
-
-
 
 /* Power
  * 
@@ -18,20 +14,30 @@
  * b is the base
  * e is the exponent
  */
-int power(int b, int e)
+/*unsigned int power(int b, int e)
 {
+	if (b == 0) return 0;
 	if (b == 1) return 1;
-	int result = 1;
+	unsigned int result = 1;
+	if (b == 2) result << e;
+	for (; e > 0; e--) result *= b;
+	return result;
+}*/
 
-	if (b == 2)
-	{
-		result << e;
-	}
-
-	for (; e > 0; e--)
-	{
-		result *= b;
-	}
+/* Long Power
+ * 
+ * b ** e
+ *
+ * b is the base
+ * e is the exponent
+ */
+long unsigned int lpower(long int b, long int e)
+{
+	if (b == 0) return 1;
+	if (b == 1) return 1;
+	long unsigned int result = 1;
+	if (b == 2) result << e;
+	for (; e > 0; e--) result *= b;
 	return result;
 }
 
@@ -43,10 +49,10 @@ int power(int b, int e)
  * e is the exponent
  * m is the modulus
  */
-int pow_mod(int b, int e, int m)
+unsigned int pow_mod(int b, int e, int m)
 {
 	assert(m != 0);
-	return power(b, e) % m;
+	return (int)pow(b, e) % m;
 }
 
 /* Is prime
@@ -56,10 +62,7 @@ int pow_mod(int b, int e, int m)
  */
 char is_prime(long int n, int k)
 {
-	if (k <= 0)
-	{
-		k = 30;
-	}
+	if (k <= 0)	k = 30;
 	return miller(n, k);
 }	
 

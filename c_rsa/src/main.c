@@ -4,27 +4,19 @@
  * Auth: Evan Wilde 				<etcwilde@uvic.ca>
  * Date: May 05 2014
  */
-#include <stdio.h>
-#include <time.h>
 #include "rsa.h"
+#include <stdio.h>
 #include <stdlib.h>
-#include "mathx.h"
-
+#include <string.h>
+#include <time.h>
 
 int main()
 {
 	int i;
 	srand(time(NULL));
 
-	// for ( i = 0; i < 30; i++) printf("[%d]: %d\n", i, rand_range(0, 100));
-
-	// printf("Random Numbers: \n");
-	// for ( i = 0; i <100; i++) printf("[%d]: %ld\n", i,rand_prime(power(10, 8)));
-	
-	keypair* keys = keygen(power(2, 15));
-
-	printf("Public Key: %d\nPrivate Key: %d\nModulus: %d\n", keys->public_key->exponent, keys->private_key->exponent, keys->public_key->modulus);
-
+	keypair* keys = keygen(pow(2, 15));
+	printf("Public key: %s\tPrivate key: %s\n", key_to_char(keys->public_key), key_to_char(keys->private_key));
 
 	return 0;
 }

@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <math.h>
 /**
  * mathx
  * File: mathx.h
@@ -8,15 +9,6 @@
  * Extended math functionality
  */
 
-/* Power
- * 
- * b ** e
- *
- * b is the base
- * e is the exponent
- */
-int power(int b, int e);
-
 /* power_mod
  *
  * (b ** e) % m
@@ -25,7 +17,7 @@ int power(int b, int e);
  * e is the exponent
  * m is the modulus
  */
-int pow_mod(int b, int e, int m);
+unsigned int pow_mod(int b, int e, int m);
 
 /* Is prime
  * 

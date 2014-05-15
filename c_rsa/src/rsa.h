@@ -1,6 +1,9 @@
-#include <stdio.h>
-#include "miller-rabin.h"
 
+#include <stdio.h>
+
+#include "miller-rabin.h"
+#include "stringx.h"
+#include "rand.h"
 /**
  * rsa
  * File: rsa.h
@@ -20,6 +23,13 @@ typedef struct _keypair{
 	key* public_key;
 	key* private_key;
 } keypair;
+
+
+/* Key To Char
+ * Converts a key to a human-readable 
+ * format.
+ */
+char* key_to_char(key* k);
 
 /* Keygen
  * 
@@ -51,16 +61,16 @@ char is_prime(long int n, int k);
   * 
   * n is the upper bound 
   */
-long int rand_prime(long int n);
+// long int rand_prime(long int n);
 
 long int multinv(long int modulus, long int value);
 
 /**  Encode
   * Encodes a message using the public key to be sent to alice
   */
-char* encode(char* msg, char* public_key);
+char* encode(char* msg, key* public_key);
 
 /** Decode
   * Decodes a message sent by alice using the private key
   */
-char* decode(char* btsting, char* private_key);
+char* decode(char* btsting, key* private_key);
