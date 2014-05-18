@@ -14,43 +14,31 @@ char* key_to_char(key* k)
 	int explen = intlen(k->exponent);
 	char* result = (char*)malloc(sizeof(char) * modlen * explen + 1);
 	assert(result != NULL);
-	result = strcat(result, itoa(k->modulus));
-	result = strcat(result, ":");
 	result = strcat(result, itoa(k->exponent));
+	result = strcat(result, ":");
+	result = strcat(result, itoa(k->modulus));
 	return result;
 }
 
 keypair* keygen(long int N)
 {
-	long int prv;
-	long int pub;
-	long int p = rand_prime(N);
-	long int q = rand_prime(N);
-	long int n = p * q;
-	long int totient;
-	totient = (p - 1) * (q - 1);
-
+	long int prv, pub;
+	long int p = rand_prime(N), q = rand_prime(N);
+	long int n = p * q, totient = (p - 1) * (q - 1);
 	for(;;)
 	{
 		prv = rand_range(0, totient);
 		if (gcd(prv, totient) == 1) break;
 	}
-
-
 	pub = multinv(totient, prv);
 	assert(pub * prv % totient == gcd(pub, totient) == gcd(prv, totient) == 1);
-
 	keypair* keys = (keypair*)malloc(sizeof(keypair));
 	key* public = (key*)malloc(sizeof(key));
 	key* private = (key*)malloc(sizeof(key));
 	assert ((public != NULL) && (private != NULL) && (keys != NULL));
-
-	keys->public_key = public;
-	keys->private_key = private;
-
+	keys->public_key = public, keys->private_key = private;
 	public->modulus = private->modulus = n;
-	public->exponent = pub;
-	private->exponent = prv;
+	public->exponent = pub, private->exponent = prv;
 	return keys;
 }
 
@@ -61,6 +49,8 @@ keypair* keygen(long int N)
 char* encode(char* msg, key* public_key)
 {
 	int block_size;
+	block_size = (int)floor(log (public_key->modulus) / log (256));
+	printf("Public Key Modulus: %d, %d\n", public_key->modulus, block_size);
 	return "Hello";
 }
 

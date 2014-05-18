@@ -7,40 +7,6 @@
 
 #include "mathx.h"
 
-/* Power
- * 
- * b ** e
- *
- * b is the base
- * e is the exponent
- */
-/*unsigned int power(int b, int e)
-{
-	if (b == 0) return 0;
-	if (b == 1) return 1;
-	unsigned int result = 1;
-	if (b == 2) result << e;
-	for (; e > 0; e--) result *= b;
-	return result;
-}*/
-
-/* Long Power
- * 
- * b ** e
- *
- * b is the base
- * e is the exponent
- */
-long unsigned int lpower(long int b, long int e)
-{
-	if (b == 0) return 1;
-	if (b == 1) return 1;
-	long unsigned int result = 1;
-	if (b == 2) result << e;
-	for (; e > 0; e--) result *= b;
-	return result;
-}
-
 /* power_mod
  *
  * (b ** e) % m
@@ -72,39 +38,23 @@ char is_prime(long int n, int k)
 long int multinv(long int modulus, long int value)
 {
 	assert (modulus != 0);
-	long int x = 0;
-	long int a = modulus;
-	long int b = value;
-	long int last_x = 1; 
-	long int q;
-	long int tmp_x;
-	long int tmp_lx;
-
+	long int x = 0, a = modulus, b = value;
+	long int last_x = 1, q, tmp_x, tmp_lx;
 	long int tmp_a, tmp_b, tmp_q;
-
-
-
 	while (b != 0)
 	{
-		tmp_a = b;
-		tmp_b = a % b;
-		tmp_q = a / b;
-
-		a = tmp_a;
-		b = tmp_b;
-		q = tmp_q;
-
-		tmp_lx = x;
-		tmp_x =	last_x - q * x;
-
-		x = tmp_x;
-		last_x = tmp_lx;
-
+		// Create New Values
+		tmp_a = b; tmp_b = a % b; tmp_q = a / b;
+		// Update Values
+		a = tmp_a; b = tmp_b; q = tmp_q;
+		//Create New Values
+		tmp_lx = x; tmp_x =	last_x - q * x;
+		//Update Values
+		x = tmp_x; last_x = tmp_lx;
 	}
 	long int result = (1 - last_x * modulus) / value;
 	if (result < 0) result += modulus;
-	
-	assert(0 <= result < modulus && value * result % modulus == 1);
+	assert(0 <= result < modulus && value * result % modulus == 1); 
 	return result;
 }
 
@@ -121,3 +71,13 @@ long int gcd(long int a, long int b)
 	}
 	return b;
 }
+
+/* log with base
+ * 
+ * Calculates the log of a number
+ * given a base
+ */
+// double logb(double x, double b)
+// {
+// 	return log(x) / log(b);
+// }

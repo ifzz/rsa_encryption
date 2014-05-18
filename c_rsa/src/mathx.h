@@ -36,3 +36,10 @@ long int multinv(long int modulus, long int value);
  * GCD calculator
  */
 long int gcd(long int a, long int b);
+
+/* log with base
+ * 
+ * Calculates the log of a number
+ * given a base
+ */
+// double logb(double x, double b);
