@@ -1,9 +1,9 @@
-
 #include <stdio.h>
 
+#include "message.h"
 #include "miller-rabin.h"
-#include "stringx.h"
 #include "rand.h"
+#include "stringx.h"
 /**
  * rsa
  * File: rsa.h

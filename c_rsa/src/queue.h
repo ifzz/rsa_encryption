@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 /* Queue
  * File: queue.h
  * Auth: Evan Wilde <etcwilde@uvic.ca>
@@ -69,5 +70,12 @@ void queue_free(queue* queue);
  * Complexity: O(1)
  */
 inline void* queue_peek(queue* queue);
+
+/* Queue Item
+ *
+ * Returns a list of the elements in the queue
+ * Returns NULL in the event of an error.
+ */
+void** queue_list(queue* queue);
 
 #endif

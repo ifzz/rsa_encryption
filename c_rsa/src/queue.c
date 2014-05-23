@@ -85,7 +85,6 @@ void queue_free(queue* queue)
 	while (queue->size > 0)
 	{
 		data = queue_pop(queue);
-		free(data);
 	}
 }
 
@@ -98,4 +97,45 @@ inline void* queue_peek(queue* queue)
 {
 	if (queue->size > 0) return queue->tail->data;
 	return NULL;
+}
+
+/* Queue Item
+ *
+ * Returns a list of the elements in the queue
+ * Returns NULL in the event of an error.
+ */
+void** queue_list(queue* queue)
+{
+	// Create an empty list
+	void** items = (void**)malloc(sizeof(void*) * queue->size + 1);
+	assert(items != NULL);
+	// memset(items, 0, sizeof(items));
+
+	// Declare variables
+	qnode* current_node;
+	void* current_item;
+
+	// Initialize Values
+	current_node = queue->tail;
+	// current_item = current_node->data;
+	*(items) = current_node;
+	// NULL pointers should not be added to the list? Should they
+	
+	// long int i = queue->size;
+	// *(items + i) = 0;
+
+	// Works in reverse
+	int i = 0;
+	do
+	{
+		if (current_node->data == NULL)
+			fprintf(stderr, "Warning: NULL node in queue.\n");
+		*(items + i) = current_node->data;
+
+
+		// printf("[%d]>> In list: %s, Node: %c\n", i, *(char**)(items + i), *(char*)current_node->data);
+		i++;
+	} while ((current_node = current_node->prev) != NULL);
+
+	return items;
 }

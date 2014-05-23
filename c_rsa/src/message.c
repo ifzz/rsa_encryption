@@ -17,12 +17,28 @@ typedef queue message;
  * This assumes that the message is printable
  * and human-readable.
  */
-// char* print_message(message* msg)
-// {
-// 	char* charmsg = (char*)malloc(sizeof(char) * msg->size + 1);
-// 	assert(charmsg != NULL);
-
-// }
+char* print_message(message* msg)
+{
+	if (msg == NULL)
+	{
+		fprintf(stderr, "Warning: No message provided\n");
+		return NULL;
+	}
+	// long int j = msg->size;
+	long int j = 0;
+	char** chars = (char**)queue_list(msg);
+	char* word = (char*)malloc(sizeof(char) * j + 1);
+	assert(chars != NULL);
+	assert(word != NULL);
+	char* pos = word;
+	while (j < msg->size)
+	{
+		*pos = *chars[j];
+		pos++, j++;
+	}
+	*pos = '\0';
+	return word;
+}
 
 
 /* Message Encode
@@ -52,18 +68,7 @@ message* mencode(char* msg)
  */
 char* mdecode(message* msg)
 {
-	assert(msg != NULL);
-	char *new_msg, *pos;
-	int i;
-	new_msg = (char*)malloc(sizeof(char) * msg->size + 1);
-	assert(new_msg != NULL);
-	size_t len = msg->size;
-	for (i = 0, pos = new_msg; pos - new_msg < len; i++)
-	{
-		*pos = *(char*)queue_pop(msg);
-		pos++;	
-	}
-	*pos = '\0';
+	char* word = print_message(msg);
 	queue_free(msg);
-	return new_msg;
+	return word;
 }
