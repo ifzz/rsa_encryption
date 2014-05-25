@@ -79,7 +79,7 @@ char* encode(char* msg, key* public_key)
 			ch = *bmsg[i];
 			// Doing that is too big...
 
-			// double val = pow(ch, public_key->exponent);
+			double val = pow(ch, public_key->exponent);
 			printf("%d, %f\t ", ch, val);
 		}
 		printf("\n");

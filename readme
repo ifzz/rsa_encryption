@@ -1,2 +1,7 @@
+Rsa encryption in C and Python
 
-The goal of the project is to learn about rsa encryption, and implement it in python and in C.
+The goal of this project is to learn about and implement the rsa key generator,
+ encryptor, and decryptor in C and Python.
+
+
+

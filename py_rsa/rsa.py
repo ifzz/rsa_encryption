@@ -76,10 +76,6 @@ def extended_gcd(a, b):
 		old_r, r = r, old_r - (q * r)
 		old_s, s = s, old_s - (q * s)
 		old_t, t = t, old_t - (q * t)
-	#print ("Bézout coefficients:", old_s, old_t)
-	#print ("Greatest common divisor:", old_r)
-	#print ("Quotients by gcd:", t, s)
-
 	if s == 0: 	
 		print ("Division by zero")
 		return 0
@@ -133,7 +129,6 @@ def decode(ciphertext, privkey, verbose=False):
 	'''Decodes a message using the private key'''
 	# Alice recieves an encoded message from Bob
 	# Alice uses private key to decode the message
-
 	block_size = int(log(privkey.modulus, 256))
 	out_fmt = '%%0%dx' % ((block_size + 1) * 2, )
 	result = []

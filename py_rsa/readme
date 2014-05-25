@@ -1,6 +1,23 @@
+RSA Encryption Algorithm in python
 
-A quick python rsa implementation.
-This is designed as an exerciese.
+Written by Evan Wilde
 
-If I can get this implemented in python quickly, I'll try doing it in c.
+Description:
+	This program is a working encryption system implemented
+	in python. It was originally intended as an execercise,
+	but will work for real applications.
+
+	It takes a message and a public key to encrypt a to a
+	cipher text, or it will take a private key and a cipher
+	to decrypt a message. The program can also generate
+	a public and private key set, which can ben used.
+
+	The private key is currently stored in plain text
+	however, in the future it may be encrypted using a user
+	password.
+
+Useage:
+	-k: Generate keys
+	-e [public key] [message]: Encrypt message with public key
+	-d [private key] [cipher]: Decrypt cipher with private key
 

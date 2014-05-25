@@ -1,0 +1,43 @@
+#!/usr/bin/python3
+
+import rsa
+import sys
+
+def main(argv):
+	# print ("Testing...")
+	# pubkey, privkey = rsa.keygen()
+	# msg = "Hello World. This is a test. 123"
+	# cipher = rsa.encode(msg, pubkey)
+	# decrypt = rsa.decode(cipher, privkey)
+	# print("Orignal Message: {0}\nDecrypt Message: {1}".format(msg, decrypt))
+	# print("Keys:\n{0}\n{1}".format(rsa.key_to_str(pubkey), rsa.key_to_str(privkey)))
+	if (len(argv) != 1 and len(argv) != 3):
+		print("Useage:\n-k: Generate keys\n-e [public key] [message]: Encrypt message with public key\n-d [private key] [message]: Decrypt message with private key")
+		return
+
+	if (len(argv) == 1 and argv[0] == "-k" ):
+		pubkey, privkey = rsa.keygen()
+		print("Public Key:  {0}".format(rsa.key_to_str(pubkey)))
+		print("Private Key: {0}".format(rsa.key_to_str(privkey)))
+		return
+
+	if (len(argv) == 3 and argv[0] == "-d"):
+		privkey = rsa.str_to_key(argv[1])
+		mess = argv[2]
+		length = int(mess.split(":")[0])
+		message = int(mess.split(":")[1])
+		cipher = message.to_bytes(length, byteorder = "big")
+		print("Decrypted message:\n{0}".format(rsa.decode(cipher, privkey)))
+		return
+
+	if (len(argv) == 3 and argv[0] == "-e"):
+		pubkey = rsa.str_to_key(argv[1])
+		msg = argv[2]
+		cipher = rsa.encode(msg, pubkey)
+		length = len(cipher)
+		icipher = int.from_bytes(cipher, byteorder = "big")
+		print ("Encrypted Message:\n{1}:{0}".format(icipher, length))
+		return
+	
+if __name__ == '__main__':
+	main(sys.argv[1:])

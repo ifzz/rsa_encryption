@@ -6,7 +6,7 @@
  */
 #include "rsa.h"
 #include "message.h"
-#include "user.h" // For now just pass in through argv
+//#include "user.h" // For now just pass in through argv
 
 #include <stdio.h>
 #include <stdlib.h>
