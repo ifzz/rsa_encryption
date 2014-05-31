@@ -5,19 +5,21 @@ Written by Evan Wilde
 Description:
 	This program is a working encryption system implemented
 	in python. It was originally intended as an execercise,
-	but will work for real applications.
+	but will work for real applications where encryption is
+	necessary.
 
-	It takes a message and a public key to encrypt a to a
-	cipher text, or it will take a private key and a cipher
-	to decrypt a message. The program can also generate
-	a public and private key set, which can ben used.
+	The program can generate usable rsa public and private
+	key pairs. It can use a generated public key and a plain
+	text message and encrypt it, or use a private key and a
+	cipher text message and decrypt it. 
 
 	The private key is currently stored in plain text
 	however, in the future it may be encrypted using a user
 	password.
 
-Useage:
-	-k: Generate keys
-	-e [public key] [message]: Encrypt message with public key
-	-d [private key] [cipher]: Decrypt cipher with private key
-
+Usage: ./rsa [argument] [options]
+    -k : Generate Keys
+    -e [public key] [message]: Encrypt a message
+    -d [private key [ciphertext]: Decrypt a message
+    -fe [public key] [files]: Encrypt a set of files
+    -fd [private key] [files]: Decrypt a set of files

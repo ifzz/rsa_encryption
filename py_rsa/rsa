@@ -2,42 +2,107 @@
 
 import rsa
 import sys
+import os
+import re
+
+# Arguments:
+# -k : Generate Keys
+# -e [public key] [message]: Encrypt a message
+# -d [private key [ciphertext]: Decrypt a message
+# -fe [public key] [files]: Encrypt a set of files
+# -fd [private key] [files]: Decrypt a set of files
+
+help_text = """
+RSA Encryption program
+Written by Evan Wilde
+
+Usage: ./rsa [argument] [options]
+    -k : Generate Keys
+    -e [public key] [message]: Encrypt a message
+    -d [private key [ciphertext]: Decrypt a message
+    -fe [public key] [files]: Encrypt a set of files
+    -fd [private key] [files]: Decrypt a set of files
+"""
+
+filename_stripper = re.compile("(.*).enc")
+
 
 def main(argv):
-	# print ("Testing...")
-	# pubkey, privkey = rsa.keygen()
-	# msg = "Hello World. This is a test. 123"
-	# cipher = rsa.encode(msg, pubkey)
-	# decrypt = rsa.decode(cipher, privkey)
-	# print("Orignal Message: {0}\nDecrypt Message: {1}".format(msg, decrypt))
-	# print("Keys:\n{0}\n{1}".format(rsa.key_to_str(pubkey), rsa.key_to_str(privkey)))
-	if (len(argv) != 1 and len(argv) != 3):
-		print("Useage:\n-k: Generate keys\n-e [public key] [message]: Encrypt message with public key\n-d [private key] [message]: Decrypt message with private key")
-		return
-
-	if (len(argv) == 1 and argv[0] == "-k" ):
-		pubkey, privkey = rsa.keygen()
-		print("Public Key:  {0}".format(rsa.key_to_str(pubkey)))
-		print("Private Key: {0}".format(rsa.key_to_str(privkey)))
-		return
-
-	if (len(argv) == 3 and argv[0] == "-d"):
-		privkey = rsa.str_to_key(argv[1])
-		mess = argv[2]
-		length = int(mess.split(":")[0])
-		message = int(mess.split(":")[1])
-		cipher = message.to_bytes(length, byteorder = "big")
-		print("Decrypted message:\n{0}".format(rsa.decode(cipher, privkey)))
-		return
-
-	if (len(argv) == 3 and argv[0] == "-e"):
-		pubkey = rsa.str_to_key(argv[1])
-		msg = argv[2]
-		cipher = rsa.encode(msg, pubkey)
-		length = len(cipher)
-		icipher = int.from_bytes(cipher, byteorder = "big")
-		print ("Encrypted Message:\n{1}:{0}".format(icipher, length))
-		return
+    if len(argv) == 0:
+        pass
+    elif argv[0] == "-k":
+        pubkey, privkey = rsa.keygen()
+        print("Public Key: {0}".format(rsa.key_to_str(pubkey)))
+        print("Private Key: {0}".format(rsa.key_to_str(privkey)))
+        return
+    # 3 - argumentss
+    elif len(argv) == 3:
+       if argv[0] == "-d":
+           privkey = rsa.str_to_key(argv[1])
+           mess = argv[2]
+           length = int(mess.split(":")[0])
+           message = int(mess.split(":")[1])
+           cipher = message.to_bytes(length, byteorder="big")
+           try:
+               print ("Decrypted Message:\n{0}".format(rsa.decode(cipher, privkey)))
+           except UnicodeDecodeError:
+               print ("Message is corrupted, or the private key is incorrect")
+           return
+       elif argv[0] == "-e":
+           pubkey = rsa.str_to_key(argv[1])
+           msg = argv[2]
+           cipher = rsa.encode(msg, pubkey)
+           length = len(cipher)
+           icipher = int.from_bytes(cipher, byteorder = "big")
+           print ("Encrypted Message:\n{0}:{1}".format(length,icipher))
+           return
+       elif argv[0] == "-fe":
+           file_list = list(set(argv[2::])) # List of non-duplicated files
+           pubkey = rsa.str_to_key(argv[1])
+           for filename in file_list:
+               try:
+                   f = open(filename, 'r')
+               except FileNotFoundError:
+                   print ("Error: {0} not found".format(filename))
+                   continue
+               # Base file exists at this point
+               try:
+                   os.remove(filename+".enc")
+               except:
+                   pass
+               with open(filename+".enc", "a") as enc_f:
+                   for line in f:
+                       cipher = rsa.encode(line, pubkey)
+                       length = len(cipher)
+                       icipher = int.from_bytes(cipher, byteorder = "big")
+                       enc_f.write("{0}:{1}.".format(length,icipher))
+               f.close()
+           return
+       elif argv[0] == '-fd':
+           file_list = list(set(argv[2::]))
+           privkey = rsa.str_to_key(argv[1])
+           for filename in file_list:
+               (plainfname,) = filename_stripper.match(filename).groups()
+               try:
+                   f = open(filename, 'r')
+               except FileNotFoundError:
+                   print ("Error: {0} not found".format(filename))
+                   continue
+               # The file we want does exist, we need to decrypt it though.
+               with open(plainfname, "w") as p_file:
+                    for line in next(f).split("."):
+                        if line == '':
+                            break
+                        length = int(line.split(":")[0])
+                        icipher = int(line.split(":")[1])
+                        cipher = icipher.to_bytes(length, byteorder = "big")
+                        try:
+                           p_file.write(rsa.decode(cipher, privkey).replace('\0', ''))
+                        except UnicodeDecodeError:
+                            print ("Message Corruption or invalid private key")
+                            continue
+           return
+    print (help_text)
 	
 if __name__ == '__main__':
 	main(sys.argv[1:])

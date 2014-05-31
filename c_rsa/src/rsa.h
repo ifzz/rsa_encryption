@@ -55,14 +55,6 @@ keypair* keygen(long int N);
 char is_prime(long int n, int k);
 
 
-/** random prime
-  * 
-  * selects a random prime number
-  * 
-  * n is the upper bound 
-  */
-// long int rand_prime(long int n);
-
 long int multinv(long int modulus, long int value);
 
 /**  Encode

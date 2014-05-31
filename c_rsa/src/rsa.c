@@ -50,44 +50,12 @@ char* encode(char* msg, key* public_key)
 {
 	assert(msg != NULL);
 	assert(public_key != NULL);
-	int block_size;
-	// char** result[];
-	block_size = (int)floor(log (public_key->modulus) / log (256));
-	message* mmsg = mencode(msg);
-	char** bmsg = (char**)queue_list(mmsg);
+	queue* encrypted_msg = (queue*)malloc(sizeof(queue));
+	assert(encrypted_msg != NULL);
 
-	printf("[%d]:%c\n", *bmsg[0], *bmsg[0]);
-	printf("[%d]:%c\n", *bmsg[mmsg->size - 1], *bmsg[mmsg->size - 1]);
-	long int start;
-	long int end; // Can remove this
+	/* For each character k *= character, k %= modulo */
+	/* Then place in a char* buffer */
 
-	printf("Message Length: %ld\n", mmsg->size);
-
-	for (start = 0, end = 0 + block_size; start <= mmsg->size ;start = end, end += block_size)
-	{
-		printf("Start: %ld, End: %ld\n",start, end);
-		// Get characters between start and end
-		char ch;
-		int i;
-		for (ch = 0, i = start; i < end; i++)
-		{
-			if (i > mmsg->size - 1)
-			{
-				/* Fill the remainders with 0's -- Future */
-				break;
-			}
-			ch = *bmsg[i];
-			// Doing that is too big...
-
-			double val = pow(ch, public_key->exponent);
-			printf("%d, %f\t ", ch, val);
-		}
-		printf("\n");
-	}
-	
-	// printf("Public Key Modulus: %d, %d\n", public_key->modulus, block_size);
-
-	queue_free(mmsg);
 	return "Hello";
 }
 
@@ -96,5 +64,7 @@ char* encode(char* msg, key* public_key)
   */
 char* decode(char* btsting, key* private_key)
 {
+	assert(btsting != NULL);
+	assert(private_key != NULL);
 	return "World";
 }
