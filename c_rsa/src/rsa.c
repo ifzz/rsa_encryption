@@ -1,6 +1,7 @@
 #include "rsa.h"
 #include <assert.h>
 
+
 /**
  * rsa
  * File: rsa.c
@@ -50,12 +51,26 @@ char* encode(char* msg, key* public_key)
 {
 	assert(msg != NULL);
 	assert(public_key != NULL);
-	queue* encrypted_msg = (queue*)malloc(sizeof(queue));
-	assert(encrypted_msg != NULL);
+	//queue* encrypted_msg = (queue*)malloc(sizeof(queue));
 
 	/* For each character k *= character, k %= modulo */
 	/* Then place in a char* buffer */
+	unsigned char c;
 
+	queue encrypted_msg;
+	queue_push(&encrypted_msg, &c); // Won't work
+	char* out_block = (char*)malloc(sizeof(char)
+			* queue_size(&encrypted_msg));
+
+	unsigned int i = 0;
+	c = 0;
+	for (;
+			queue_size > 0;
+			c = (char)*(char*)queue_pop(&encrypted_msg), ++i)
+	{
+		memcpy(out_block + i, &c, sizeof(char));
+		printf("%c, %c\n", c, out_block[i]);
+	}
 	return "Hello";
 }
 

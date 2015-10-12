@@ -17,7 +17,7 @@
  * e is the exponent
  * m is the modulus
  */
-unsigned int pow_mod(int b, int e, int m);
+unsigned int pow_mod(unsigned int b, unsigned int e, unsigned int m);
 
 /* Is prime
  * 

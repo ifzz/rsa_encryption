@@ -15,10 +15,17 @@
  * e is the exponent
  * m is the modulus
  */
-unsigned int pow_mod(int b, int e, int m)
+unsigned int pow_mod(unsigned int b, unsigned int e, unsigned int m)
 {
-	assert(m != 0);
-	return (int)pow(b, e) % m;
+	b %= m;
+	unsigned int result = 1;
+	while (e > 0)
+	{
+		if (e & 1) result = (result * b) %m;
+		b = (b * b) % m;
+		e >>= 1;
+	}
+	return result;
 }
 
 /* Is prime
